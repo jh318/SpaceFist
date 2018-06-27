@@ -346,6 +346,7 @@ ModelImporter:
     4300024: poly_SkirtRB
     7400000: kn_LeftJab
     9500000: //RootNode
+    11100000: //RootNode
     13700000: poly_Body
     13700002: poly_SkirtLB
     13700004: poly_SkirtLF

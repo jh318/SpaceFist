@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class FightController : MonoBehaviour 
 {
-	public GameObject hitbox;
-
 	bool cancelWindow;
+	GameObject activeHitbox;
+	List<GameObject> hitboxes = new List<GameObject>();
 	Technique currentTechnique;
-
 	Animator animator;
 
 	void Awake()
 	{
 		animator = GetComponent<Animator>();
-		hitbox.SetActive(false);
 		cancelWindow = false;
+		GetHitboxes();
+
+		
 	}
 
 	void Update()
@@ -26,14 +27,30 @@ public class FightController : MonoBehaviour
 		}
 	}
 
-	void FP_HitboxActive()
+	void FP_HitboxActive(string hitbox)
 	{
-		hitbox.SetActive(true);
+		if(hitboxes != null)
+		{
+			foreach(GameObject box in hitboxes)
+			{
+				if(box.name == hitbox)
+				{
+						box.SetActive(true);
+						activeHitbox = box;
+						break;
+				}
+			}
+		}	
 	}
 
 	void FP_HitboxDeactivate()
 	{
-		hitbox.SetActive(false);
+		if(activeHitbox != null)
+		{
+			activeHitbox.SetActive(false);
+			activeHitbox = null;
+		}
+		
 	}
 
 	void FP_CancelWindowActive()
@@ -93,4 +110,17 @@ public class FightController : MonoBehaviour
 	
 	}
 
+	void GetHitboxes()
+	{
+		Component[] hitboxComponents = GetComponentsInChildren(typeof(Hitbox), true);
+		
+		if(hitboxComponents != null)
+		{
+			foreach(Hitbox box in hitboxComponents)
+			{
+				hitboxes.Add(box.gameObject);
+			}
+		}
+		
+	}
 }
